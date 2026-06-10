@@ -940,21 +940,50 @@ function matchUndergrad(){
   regions.forEach(r=>{if(UG_DB[r])all=all.concat(UG_DB[r].map(s=>({...s,region:r})));});
   const scored=all.map(s=>{
     if(s.gaokaoPct===0)return null;
-    const diff=pct-s.gaokaoPct;if(diff<-10)return null;
-    let score=diff>=5?85+Math.min(13,(diff-5)*2):diff>=0?70+(diff/5)*15:diff>=-5?45+((diff+5)/5)*25:25+((diff+5)/5)*20;
-    if(eng>=s.engMin+10)score+=8;else if(eng>=s.engMin)score+=5;else if(eng>=s.engMin-10)score+=2;
+    // HARD FILTERS: score must meet minimums
+    const diff=pct-s.gaokaoPct;
+    // Total score too far below requirement (>5pp gap) -> exclude
+    if(diff<-5)return null;
+    // English too low -> exclude (strict: must meet min)
+    if(eng<s.engMin)return null;
+    // IELTS too low -> exclude (if student has score)
+    if(ieltsNum>0&&ieltsNum<s.ieltsMin-1)return null;
+
+    // SCORE: 0-100 based on how well the student matches
+    let score;
+    if(diff>=5)score=85+Math.min(13,(diff-5)*2);           // 85-98 well above
+    else if(diff>=2)score=72+((diff-2)/3)*13;               // 72-85 above
+    else if(diff>=0)score=55+(diff/2)*17;                   // 55-72 at par
+    else if(diff>=-3)score=30+((diff+3)/3)*25;              // 30-55 slight gap
+    else score=10+((diff+3)/2)*20;                          // 10-30 stretch (diff -5 to -3)
+
+    // Bonus for exceeding requirements
+    if(eng>=s.engMin+10)score+=8;else if(eng>=s.engMin+5)score+=5;else if(eng>=s.engMin)score+=3;
     if(ieltsNum>0){if(ieltsNum>=s.ieltsMin+0.5)score+=5;else if(ieltsNum>=s.ieltsMin)score+=3;}
-    if(!anyMajor){if((majors.includes('cs')||majors.includes('engineering'))&&subjects.includes('physics'))score+=3;
-      if((majors.includes('medical')||majors.includes('science'))&&subjects.includes('chemistry')&&subjects.includes('biology'))score+=3;}
-    const f=Math.min(90,Math.max(5,Math.round(score)));
+
+    // Subject matching bonus
+    if(!anyMajor){
+      if((majors.includes('cs')||majors.includes('engineering'))&&subjects.includes('physics'))score+=3;
+      if((majors.includes('medical')||majors.includes('science'))&&subjects.includes('chemistry')&&subjects.includes('biology'))score+=3;
+    }
+    const f=Math.min(95,Math.max(3,Math.round(score)));
     return{...s,matchPct:f,matchClass:f>=65?'high':f>=40?'medium':'low',gaokaoPctReq:s.gaokaoPct,engReq:s.engMin};
   }).filter(Boolean);
   scored.sort((a,b)=>b.matchPct-a.matchPct);
   const safety=scored.filter(s=>s.matchPct>=70).sort((a,b)=>b.matchPct-a.matchPct).slice(0,4);
   const core=scored.filter(s=>s.matchPct>=40&&s.matchPct<70).sort((a,b)=>b.matchPct-a.matchPct).slice(0,4);
-  const reach=scored.filter(s=>s.matchPct>=5&&s.matchPct<40).sort((a,b)=>b.matchPct-a.matchPct).slice(0,4);
-  let foundation=[];if(UG_DB.foundation)foundation=UG_DB.foundation.filter(s=>regions.includes(s.region)).filter(s=>pct>=s.gaokaoPct-10).sort((a,b)=>b.gaokaoPct-a.gaokaoPct).slice(0,6);
-  const showFoundation=(reach.length+core.length+safety.length)<3||pct<65;
+  const reach=scored.filter(s=>s.matchPct>=3&&s.matchPct<40).sort((a,b)=>b.matchPct-a.matchPct).slice(0,4);
+  // Foundation: strict requirement check - student must MEET the minimum
+  let foundation=[];
+  if(UG_DB.foundation){
+    foundation=UG_DB.foundation
+      .filter(s=>regions.includes(s.region))
+      .filter(s=>pct>=s.gaokaoPct&&eng>=s.engMin)  // must meet minimum requirements
+      .sort((a,b)=>b.gaokaoPct-a.gaokaoPct)
+      .slice(0,6);
+  }
+  // Show foundation only when student's score is too low for undergraduate
+  const showFoundation=(reach.length+core.length+safety.length)<2&&pct<65;
   return{reach,core,safety,foundation,showFoundation,profile:{type:'ug',total,eng,pct:pct.toFixed(1),ielts:ieltsNum,subjects,regions,majors}};
 }
 
