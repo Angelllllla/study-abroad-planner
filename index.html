@@ -387,22 +387,107 @@ const CHINA_UNIVERSITIES = [
   {name:'澳门大学',tier:'haiben'},{name:'澳门科技大学',tier:'haiben'},
 ];
 const HIGH_SCHOOLS = [
+  // ===== 深圳（最全） =====
   {name:'深圳中学'},{name:'深圳实验学校（高中部）'},{name:'深圳外国语学校'},{name:'深圳高级中学（中心校区）'},
-  {name:'华南师范大学附属中学'},{name:'广东实验中学'},{name:'广州市执信中学'},{name:'广州外国语学校'},
-  {name:'佛山石门中学'},{name:'佛山市第一中学'},{name:'东莞东华高级中学'},{name:'东莞中学'},
-  {name:'珠海市第一中学'},{name:'中山市纪念中学'},{name:'汕头金山中学'},
-  {name:'北京人大附中'},{name:'北京四中'},{name:'北京清华附中'},{name:'北京十一学校'},
+  {name:'深圳高级中学（东校区）'},{name:'深圳高级中学（高中园）'},{name:'深圳大学附属中学'},{name:'南方科技大学附属中学'},
+  {name:'深圳市红岭中学'},{name:'深圳市宝安中学（集团）'},{name:'深圳市育才中学'},
+  {name:'深圳市南山外国语学校（集团）'},{name:'深圳市第二高级中学'},{name:'深圳市第二实验学校'},
+  {name:'深圳市人大附中深圳学校'},{name:'华中师大龙岗附中'},{name:'深圳市龙城高级中学'},
+  {name:'深圳市福田中学'},{name:'深圳市翠园中学'},{name:'深圳市平冈中学'},
+  {name:'深圳市新安中学（集团）'},{name:'深圳市光明区高级中学'},{name:'深圳市盐田高级中学'},
+  {name:'深圳市第七高级中学'},{name:'深圳市第三高级中学'},{name:'深圳科学高中'},
+  {name:'深圳实验学校光明部'},{name:'深圳外国语学校龙华高中部'},{name:'深圳万科梅沙书院'},
+  {name:'深圳国际交流学院'},{name:'深圳（南山）中加学校'},{name:'深圳市石岩公学'},
+  {name:'深圳市耀华实验学校'},{name:'深圳市富源学校'},{name:'深圳市东升学校'},
+  {name:'深圳东方英文书院'},{name:'深圳奥斯翰外语学校'},{name:'深圳市皇御苑学校'},
+  {name:'深圳市龙翔学校'},{name:'深圳市崛起实验中学'},{name:'深圳市明德外语实验学校'},
+  {name:'深圳市华侨城中学'},{name:'深圳市北师大南山附中'},{name:'深圳市南头中学'},
+  {name:'深圳市罗湖外语学校'},{name:'深圳市滨河中学'},{name:'深圳市明珠学校'},
+  {name:'深圳市龙华中学'},{name:'深圳市观澜中学'},{name:'深圳市新华中学'},
+  {name:'深圳市西乡中学'},{name:'深圳市沙井中学'},{name:'深圳市松岗中学'},
+  {name:'深圳市布吉中学'},{name:'深圳市横岗高级中学'},{name:'深圳市坪山高级中学'},
+  {name:'深圳市华中师大附中'},{name:'深圳实验承翰学校'},{name:'深圳实验学校高中园'},
+  {name:'深圳外国语学校高中园'},{name:'深圳高级中学高中园'},{name:'深圳第二外国语学校'},
+  {name:'深圳美术学校'},{name:'深圳艺术学校'},{name:'深圳市体育运动学校'},
+  // ===== 广州 =====
+  {name:'华南师范大学附属中学'},{name:'广东实验中学'},{name:'广州市执信中学'},{name:'广州市广雅中学'},
+  {name:'广州市第二中学'},{name:'广州市第六中学'},{name:'广州大学附属中学'},{name:'广州外国语学校'},
+  {name:'广州市铁一中学'},{name:'广州市第七中学'},{name:'广州市第十六中学'},{name:'广州市真光中学'},
+  {name:'广州市培正中学'},{name:'广州市天河外国语学校'},{name:'广州市第五中学'},
+  {name:'广州市南武中学'},{name:'广州市第一中学'},{name:'广州市第三中学'},
+  {name:'广州市第四中学'},{name:'广州市第八十九中学'},{name:'广州市玉岩中学'},
+  {name:'广州市仲元中学'},{name:'广州市秀全中学'},{name:'广州市邝维煜中学'},
+  {name:'广州市增城中学'},{name:'广州市从化中学'},{name:'广州市花都区秀全中学'},
+  {name:'广州市黄广中学'},{name:'广州市中大附中'},
+  // ===== 佛山 =====
+  {name:'佛山市石门中学'},{name:'佛山市第一中学'},{name:'佛山市顺德一中'},{name:'佛山市南海中学'},
+  {name:'佛山市郑裕彤中学'},{name:'佛山市李兆基中学'},{name:'佛山市三水中学'},
+  {name:'佛山市高明一中'},{name:'佛山市桂城中学'},{name:'佛山市九江中学'},
+  // ===== 东莞 =====
+  {name:'东莞市东华高级中学'},{name:'东莞中学'},{name:'东莞中学松山湖学校'},{name:'东莞市光明中学'},
+  {name:'东莞市第一中学'},{name:'东莞市实验中学'},{name:'东莞市高级中学'},
+  {name:'东莞市虎门外语学校'},{name:'东莞市翰林实验学校'},{name:'东莞外国语学校'},
+  // ===== 珠海/中山/惠州/其他广东 =====
+  {name:'珠海市第一中学'},{name:'珠海市第二中学'},{name:'珠海市实验中学'},{name:'中山市第一中学'},
+  {name:'中山市华侨中学'},{name:'中山市纪念中学'},{name:'惠州市第一中学'},{name:'惠州市华罗庚中学'},
+  {name:'汕头市金山中学'},{name:'汕头市潮阳实验学校'},{name:'汕头市第一中学'},
+  {name:'湛江市第一中学'},{name:'湛江二中'},{name:'茂名市第一中学'},{name:'肇庆中学'},
+  {name:'江门市第一中学'},{name:'梅州市东山中学'},{name:'揭阳第一中学'},{name:'清远市第一中学'},
+  // ===== 北京 =====
+  {name:'北京人大附中'},{name:'北京四中'},{name:'北京清华附中'},{name:'北京北大附中'},
+  {name:'北京一零一中学'},{name:'北京师大二附中'},{name:'北京十一学校'},{name:'北京八中'},
+  {name:'北京师大附中'},{name:'北京二中'},{name:'北京五中'},{name:'北京汇文中学'},
+  {name:'北京八十中'},{name:'北京陈经纶中学'},{name:'北京朝阳外国语学校'},{name:'北京十二中'},
+  {name:'北京九中'},{name:'北京一七一中学'},{name:'北京一六一中学'},{name:'北京三十五中'},
+  // ===== 上海 =====
   {name:'上海中学'},{name:'华东师大二附中'},{name:'上海复旦附中'},{name:'上海交大附中'},
-  {name:'杭州第二中学'},{name:'杭州学军中学'},{name:'杭州外国语学校'},{name:'宁波镇海中学'},
-  {name:'南京外国语学校'},{name:'南京师大附中'},{name:'苏州中学'},{name:'无锡天一中学'},
-  {name:'成都七中'},{name:'成都树德中学'},{name:'成都石室中学'},{name:'重庆南开中学'},
-  {name:'重庆巴蜀中学'},{name:'长沙雅礼中学'},{name:'长沙长郡中学'},{name:'湖南师大附中'},
-  {name:'武汉华师一附中'},{name:'武汉外国语学校'},{name:'厦门第一中学'},{name:'厦门双十中学'},
-  {name:'福州第一中学'},{name:'青岛第二中学'},{name:'山东省实验中学'},{name:'哈尔滨三中'},
-  {name:'郑州外国语学校'},{name:'西安高新一中'},{name:'合肥一中'},{name:'南昌二中'},
-  {name:'南宁三中'},{name:'海南中学'},{name:'贵阳市第一中学'},{name:'云南师大附中'},
-  {name:'乌鲁木齐一中'},{name:'东北师大附中'},{name:'大连二十四中'},
-].sort((a,b)=>a.name.localeCompare(b.name,'zh'));
+  {name:'上海七宝中学'},{name:'上海建平中学'},{name:'上海实验学校'},{name:'上海南洋模范中学'},
+  {name:'上海延安中学'},{name:'上海格致中学'},{name:'上海大同中学'},{name:'上海复兴中学'},
+  {name:'上海控江中学'},{name:'上海进才中学'},{name:'上海位育中学'},{name:'上海曹杨二中'},
+  {name:'上海向明中学'},{name:'上海育才中学'},{name:'上海行知中学'},{name:'上海川沙中学'},
+  // ===== 浙江 =====
+  {name:'杭州第二中学'},{name:'杭州学军中学'},{name:'杭州外国语学校'},{name:'宁波市镇海中学'},
+  {name:'宁波效实中学'},{name:'宁波中学'},{name:'温州中学'},{name:'温州育英国际实验学校'},
+  {name:'绍兴一中'},{name:'绍兴柯桥中学'},{name:'绍兴春晖中学'},{name:'金华一中'},
+  {name:'台州中学'},{name:'嘉兴一中'},{name:'湖州中学'},{name:'衢州二中'},
+  {name:'义乌中学'},{name:'慈溪中学'},{name:'诸暨中学'},{name:'东阳中学'},
+  // ===== 江苏 =====
+  {name:'南京外国语学校'},{name:'南京师大附中'},{name:'南京金陵中学'},{name:'苏州中学'},
+  {name:'苏州星海实验中学'},{name:'苏州实验中学'},{name:'无锡天一中学'},{name:'无锡大桥实验学校'},
+  {name:'常州高级中学'},{name:'常州一中'},{name:'南通中学'},{name:'南通海门中学'},
+  {name:'扬州中学'},{name:'徐州一中'},{name:'盐城中学'},{name:'淮阴中学'},
+  {name:'镇江一中'},{name:'泰州中学'},{name:'宿迁中学'},{name:'连云港新海高中'},
+  // ===== 四川/重庆 =====
+  {name:'成都七中'},{name:'成都树德中学'},{name:'成都石室中学'},{name:'成都外国语学校'},
+  {name:'成都实验外国语学校'},{name:'成都嘉祥外国语学校'},{name:'成都七中万达学校'},
+  {name:'重庆南开中学'},{name:'重庆巴蜀中学'},{name:'重庆第一中学'},{name:'重庆第八中学'},
+  {name:'重庆育才中学'},{name:'重庆外国语学校'},{name:'重庆西大附中'},{name:'重庆巴川中学'},
+  // ===== 湖南/湖北 =====
+  {name:'长沙雅礼中学'},{name:'长沙长郡中学'},{name:'湖南师大附中'},{name:'长沙市一中'},
+  {name:'长沙明德中学'},{name:'长沙南雅中学'},{name:'长沙麓山国际实验学校'},
+  {name:'武汉华师一附中'},{name:'武汉外国语学校'},{name:'武汉二中'},{name:'湖北省实验中学'},
+  {name:'武汉三中'},{name:'武钢三中'},{name:'武汉六中'},{name:'襄阳四中'},{name:'襄阳五中'},
+  // ===== 福建 =====
+  {name:'厦门第一中学'},{name:'厦门双十中学'},{name:'厦门外国语学校'},{name:'福州第一中学'},
+  {name:'福建师大附中'},{name:'福州三中'},{name:'泉州五中'},{name:'莆田一中'},
+  {name:'漳州一中'},{name:'龙岩一中'},{name:'三明二中'},{name:'南平一中'},
+  // ===== 山东 =====
+  {name:'青岛第二中学'},{name:'山东省实验中学'},{name:'济南外国语学校'},{name:'山东师大附中'},
+  {name:'济南市历城二中'},{name:'青岛五十八中'},{name:'烟台一中'},{name:'潍坊一中'},
+  {name:'临沂一中'},{name:'日照一中'},{name:'济宁一中'},{name:'东营胜利一中'},
+  {name:'威海一中'},{name:'淄博实验中学'},{name:'枣庄三中'},{name:'泰安一中'},
+  // ===== 其他省份 =====
+  {name:'哈尔滨三中'},{name:'大庆实验中学'},{name:'东北师大附中'},{name:'吉林一中'},
+  {name:'郑州市第一中学'},{name:'河南实验中学'},{name:'郑州外国语学校'},{name:'开封高中'},
+  {name:'西安高新一中'},{name:'西安铁一中'},{name:'西安交大附中'},{name:'西工大附中'},
+  {name:'西北师大附中'},{name:'兰州一中'},{name:'兰州大学附中'},
+  {name:'合肥一中'},{name:'合肥一六八中学'},{name:'合肥八中'},{name:'芜湖一中'},
+  {name:'南昌二中'},{name:'江西师大附中'},{name:'南昌一中'},{name:'临川一中'},
+  {name:'南宁三中'},{name:'南宁二中'},{name:'柳州高中'},{name:'桂林中学'},
+  {name:'海南中学'},{name:'海南华侨中学'},{name:'贵阳市第一中学'},{name:'贵阳实验三中'},
+  {name:'昆明一中'},{name:'云南师大附中'},{name:'曲靖一中'},
+  {name:'乌鲁木齐一中'},{name:'新疆兵团二中'},
+].sort((a,b)=>a.name.localeCompare(b.name,'zh'));ort((a,b)=>a.name.localeCompare(b.name,'zh'));
 const REGION_ALIAS = {uk:'🇬🇧 英国',hk:'🇭🇰 香港',aus:'🇦🇺 澳洲',macau:'🇲🇴 澳门'};
 
 /* ==================================================================
@@ -565,11 +650,15 @@ function updateSteps() {
 function validateCurrentStep() {
   const lv = document.getElementById('appLevel').value;
   if (currentStep === 1) {
-    // Step 1: check if level-specific fields are filled
     if (lv==='pg'||lv==='phd') {
       const schoolVal = document.getElementById('ugSchoolInput')?.value?.trim();
       if (!schoolVal && !getSchoolTier('ug')) {
-        return {ok: false, msg: '请输入或选择本科院校'};
+        return {ok: false, msg: '请输入本科院校名称'};
+      }
+      // Check GPA
+      const gpa = readGpa('ug');
+      if (!gpa || gpa === 0) {
+        return {ok: false, msg: '请填写均分/GPA'};
       }
     }
     if (lv==='ug'||lv==='fd') {
@@ -577,15 +666,24 @@ function validateCurrentStep() {
       if (!total || parseFloat(total) <= 0) {
         return {ok: false, msg: '请填写高考总分'};
       }
+      const eng = document.getElementById('gaokaoEnglish')?.value;
+      if (!eng || parseFloat(eng) <= 0) {
+        return {ok: false, msg: '请填写高考英语分数'};
+      }
     }
     return {ok: true};
   }
-  if (currentStep === 2) {
+  if (currentStep === 3) {
     const regions = document.querySelectorAll('#regionGroup .cb-l.active').length;
+    if (regions === 0) {
+      return {ok: false, msg: '请至少选择一个目标地区'};
+    }
     return {ok: true};
   }
   return {ok: true};
 }
+
+
 
 function goToStep(n) {
   if (n === currentStep) return;
@@ -670,13 +768,15 @@ function switchMode() {
       <div class="fg"><label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:13px;"><input type="checkbox" id="isTopUp" onchange="toggleTopUp()" style="width:auto;"> <span style="font-weight:600;">专升本</span></label></div>`;
     initUgSchoolSearch();
   }
-  // GPA fields
-  const pre = lv==='ug'||lv==='fd'?'ug':'ug';
-  const gpaHtml = `<div class="fg" id="gpaMain"><label>均分 / GPA</label>
-    <div class="gpa-type"><button data-mode="pct" onclick="switchGpaType('${pre}','pct',this)" class="active">百分制</button><button data-mode="gpa" onclick="switchGpaType('${pre}','gpa',this)">GPA</button></div>
-    <div class="gpa-fields active" id="${pre}Pct"><input type="number" id="${pre}GpaPct" placeholder="例如 82" min="0" max="100" step="0.5" oninput="autoRecalc()"><span>/ 100</span></div>
-    <div class="gpa-fields" id="${pre}Gpa"><input type="number" id="${pre}GpaVal" placeholder="例如 3.8" min="0" max="4" step="0.1" oninput="autoRecalc()"><span>/</span><input type="number" id="${pre}GpaFull" placeholder="4" min="1" max="5" step="0.5" style="width:60px;" oninput="autoRecalc()"></div></div>`;
-  step1.insertAdjacentHTML('beforeend', gpaHtml);
+  // GPA fields (PG/PhD only, not for UG/FD)
+  if (lv!=='ug'&&lv!=='fd') {
+    const pre = 'ug';
+    const gpaHtml = `<div class="fg" id="gpaMain"><label>均分 / GPA</label>
+      <div class="gpa-type"><button data-mode="pct" onclick="switchGpaType('${pre}','pct',this)" class="active">百分制</button><button data-mode="gpa" onclick="switchGpaType('${pre}','gpa',this)">GPA</button></div>
+      <div class="gpa-fields active" id="${pre}Pct"><input type="number" id="${pre}GpaPct" placeholder="例如 82" min="0" max="100" step="0.5" oninput="autoRecalc()"><span>/ 100</span></div>
+      <div class="gpa-fields" id="${pre}Gpa"><input type="number" id="${pre}GpaVal" placeholder="例如 3.8" min="0" max="4" step="0.1" oninput="autoRecalc()"><span>/</span><input type="number" id="${pre}GpaFull" placeholder="4" min="1" max="5" step="0.5" style="width:60px;" oninput="autoRecalc()"></div></div>`;
+    step1.insertAdjacentHTML('beforeend', gpaHtml);
+  }
 
   // PhD extra fields
   if (lv==='phd') {
@@ -761,8 +861,8 @@ function updateSubjRec(){
   if(subs.includes('physics')&&subs.includes('chemistry'))m.push('🔬 材料/化工');
   if(subs.includes('chemistry')&&subs.includes('biology'))m.push('🏥 临床医学/药学');
   if(m.length){txt.innerHTML='推荐方向：'+m.slice(0,4).join(' · ');rec.classList.add('show');}else rec.classList.remove('show');
-  // Auto-select majors based on subjects
-  if(majorKeys.length&&document.querySelector('.step-panel#step2.active')){
+  // Auto-select majors based on subjects (always works, regardless of active step)
+  if(majorKeys.length){
     document.querySelectorAll('#majorGroup .cb-l').forEach(el=>{
       const shouldBe=majorKeys.includes(el.dataset.v);
       el.classList.toggle('active',shouldBe);
