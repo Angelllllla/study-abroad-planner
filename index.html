@@ -250,7 +250,7 @@ input::placeholder{color:#B0B8CF;}
         <div class="panel-title">🎓 院校与成绩</div>
         <div class="panel-desc">选择申请层次，填写就读院校和均分</div>
         <div class="fields-grid one" style="max-width:500px;">
-          <div class="fg"><label>申请层次</label><select id="appLevel" onchange="switchMode()"><option value="pg" selected>硕士（Postgraduate / Master's）</option><option value="ug">本科（Undergraduate）</option><option value="phd">博士（Doctoral / PhD）</option><option value="fd">副学士（Foundation / Associate）</option></select></div>
+          <div class="fg"><label>申请层次</label><select id="appLevel" onchange="switchMode()" style="color:var(--text-muted);"><option value="" disabled selected style="color:#B0B8CF;">请选择申请层次</option><option value="pg">硕士（Postgraduate / Master's）</option><option value="ug">本科（Undergraduate）</option><option value="phd">博士（Doctoral / PhD）</option><option value="fd">副学士（Foundation / Associate）</option></select></div>
         </div>
         <div id="step1Fields"></div>
         <div id="step1Extra"></div>
@@ -650,6 +650,9 @@ function updateSteps() {
 function validateCurrentStep() {
   const lv = document.getElementById('appLevel').value;
   if (currentStep === 1) {
+    if (!lv) {
+      return {ok: false, msg: '请先选择申请层次'};
+    }
     if (lv==='pg'||lv==='phd') {
       const schoolVal = document.getElementById('ugSchoolInput')?.value?.trim();
       if (!schoolVal && !getSchoolTier('ug')) {
@@ -713,8 +716,9 @@ function goToStep(n) {
   updateSteps();
 }
 function nextStep() {
-  const result = validateCurrentStep();
-  if (!result.ok) {
+  try {
+    const result = validateCurrentStep();
+    if (!result.ok) {
     const btn = document.getElementById('nextBtn');
     const orig = btn.textContent;
     btn.textContent = '⚠️ ' + result.msg;
@@ -724,6 +728,13 @@ function nextStep() {
   }
   if (currentStep<3) { currentStep++; updateSteps(); }
   else generatePlan();
+  } catch(e) {
+    const btn = document.getElementById('nextBtn');
+    btn.textContent = '⚠️ 请检查填写内容';
+    btn.style.background = '#E53E3E';
+    setTimeout(() => { btn.textContent = currentStep===3?'🚀 生成方案':'下一步 →'; btn.style.background = ''; }, 2000);
+    console.error(e);
+  }
 }
 function prevStep() { if (currentStep>1) { currentStep--; updateSteps(); } }
 // validation moved to validateCurrentStep()
@@ -735,6 +746,7 @@ function switchMode() {
   const lv = document.getElementById('appLevel').value;
   const step1 = document.getElementById('step1Fields');
   const extra = document.getElementById('step1Extra');
+  if (!lv) { step1.innerHTML = '<div style="padding:20px 0;text-align:center;color:var(--text-muted);font-size:14px;">👆 请先选择申请层次</div>'; extra.innerHTML=''; return; }
   // Show/hide subject recommendation based on level
   const majors = document.getElementById('majorGroup');
   if (lv==='ug'||lv==='fd') {
@@ -1069,7 +1081,7 @@ function clearComparison(){savedPlan=null;compareVisible=false;document.getEleme
 function resetAll(){
   if(savedPlan){if(!confirm('重置将清除当前方案对比，确定吗？'))return;}
   savedPlan=null;compareVisible=false;currentStep=1;
-  document.getElementById('appLevel').value='pg';
+  document.getElementById('appLevel').value='';
   document.getElementById('emptyState').style.display='block';
   document.getElementById('results').style.display='none';
   document.getElementById('results').classList.remove('show');
