@@ -250,7 +250,7 @@ input::placeholder{color:#B0B8CF;}
         <div class="panel-title">🎓 院校与成绩</div>
         <div class="panel-desc">选择申请层次，填写就读院校和均分</div>
         <div class="fields-grid one" style="max-width:500px;">
-          <div class="fg"><label>申请层次</label><select id="appLevel" onchange="switchMode()" style="color:var(--text-muted);"><option value="" disabled selected style="color:#B0B8CF;">请选择申请层次</option><option value="pg">硕士（Postgraduate / Master's）</option><option value="ug">本科（Undergraduate）</option><option value="phd">博士（Doctoral / PhD）</option><option value="fd">副学士（Foundation / Associate）</option></select></div>
+          <div class="fg"><label>申请层次</label><select id="appLevel" title="选择申请层次" style="color:var(--text-muted);"><option value="" disabled selected style="color:#B0B8CF;">请选择申请层次</option><option value="pg">硕士（Postgraduate / Master's）</option><option value="ug">本科（Undergraduate）</option><option value="phd">博士（Doctoral / PhD）</option><option value="fd">副学士（Foundation / Associate）</option></select></div>
         </div>
         <div id="step1Fields"></div>
         <div id="step1Extra"></div>
@@ -262,7 +262,7 @@ input::placeholder{color:#B0B8CF;}
         <div class="fields-grid two" id="step2Fields">
           <div class="fg"><label>雅思成绩 <span class="hint">（选填）</span></label><div class="ielts-wrap"><input type="text" id="ieltsInput" placeholder="例如 6.5 或留空" oninput="validateIelts();autoRecalc();"><span class="vld empty" id="ieltsStatus">选填</span></div></div>
 
-          <div class="fg one" style="grid-column:1/-1;"><label>目标专业 <span class="hint">（可多选）</span></label><div class="cb-group" id="majorGroup">
+          <div class="fg one" style="grid-column:1/-1;"><label for="majorGroup">目标专业 <span class="hint">（可多选）</span></label><div class="cb-group" id="majorGroup">
             <div class="cb-l active" data-v="cs">💻 计算机 / DS / AI</div>
             <div class="cb-l" data-v="business">📈 商科 / 金融 / 管理</div>
             <div class="cb-l" data-v="engineering">⚙️ 工程 / 电子 / 机械</div>
@@ -281,7 +281,7 @@ input::placeholder{color:#B0B8CF;}
         <div class="panel-title">🌍 目标地区</div>
         <div class="panel-desc">选择你想申请的地区（可多选），然后查看方案</div>
         <div class="fields-grid one" style="max-width:500px;">
-          <div class="fg"><label>目标地区 <span class="hint">（可多选）</span></label><div class="cb-group" id="regionGroup">
+          <div class="fg"><label for="regionGroup">目标地区 <span class="hint">（可多选）</span></label><div class="cb-group" id="regionGroup">
             <div class="cb-l" data-v="uk">🇬🇧 英国</div>
             <div class="cb-l" data-v="hk">🇭🇰 香港</div>
             <div class="cb-l" data-v="aus">🇦🇺 澳洲</div>
@@ -294,10 +294,10 @@ input::placeholder{color:#B0B8CF;}
       </div>
     </div>
     <div class="wizard-footer">
-      <button class="btn btn-ghost" id="prevBtn" onclick="prevStep()">← 上一步</button>
+      <button class="btn btn-ghost" id="prevBtn">← 上一步</button>
       <div>
         <button class="btn btn-secondary" onclick="resetAll()" style="margin-right:8px;">重置</button>
-        <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">下一步 →</button>
+        <button class="btn btn-primary" id="nextBtn">下一步 →</button>
       </div>
     </div>
   </div>
@@ -716,24 +716,26 @@ function goToStep(n) {
   updateSteps();
 }
 function nextStep() {
+  console.log('[NEXT] entered nextStep, step=' + currentStep);
+  var btn = document.getElementById('nextBtn');
+  if (!btn) { console.error('[NEXT] nextBtn not found!'); return; }
   try {
-    const result = validateCurrentStep();
+    btn.textContent = '⏳ 处理中...';
+    var result = validateCurrentStep();
+    console.log('[NEXT] validation result:', JSON.stringify(result));
     if (!result.ok) {
-    const btn = document.getElementById('nextBtn');
-    const orig = btn.textContent;
-    btn.textContent = '⚠️ ' + result.msg;
-    btn.style.background = '#E53E3E';
-    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
-    return;
-  }
-  if (currentStep<3) { currentStep++; updateSteps(); }
-  else generatePlan();
+      btn.textContent = '⚠️ ' + result.msg;
+      btn.style.background = '#E53E3E';
+      setTimeout(function() { btn.textContent = currentStep===3?'🚀 生成方案':'下一步 →'; btn.style.background = ''; }, 2500);
+      return;
+    }
+    if (currentStep<3) { currentStep++; updateSteps(); console.log('[NEXT] advanced to step ' + currentStep); }
+    else { console.log('[NEXT] generating plan...'); generatePlan(); }
   } catch(e) {
-    const btn = document.getElementById('nextBtn');
-    btn.textContent = '⚠️ 请检查填写内容';
+    console.log('[NEXT] ERROR:', e.message, e.stack);
+    btn.textContent = '⚠️ ' + (e.message || '出错了');
     btn.style.background = '#E53E3E';
-    setTimeout(() => { btn.textContent = currentStep===3?'🚀 生成方案':'下一步 →'; btn.style.background = ''; }, 2000);
-    console.error(e);
+    setTimeout(function() { btn.textContent = currentStep===3?'🚀 生成方案':'下一步 →'; btn.style.background = ''; }, 2500);
   }
 }
 function prevStep() { if (currentStep>1) { currentStep--; updateSteps(); } }
@@ -753,7 +755,7 @@ function switchMode() {
     // Show subject selection
     step1.innerHTML = `<div class="fg"><label>高中院校名称 <span class="hint">（输入或选择）</span></label>
       <div class="s-wrap"><input type="text" id="highSchoolInput" placeholder="输入高中名称…" autocomplete="off"><div class="s-drop" id="highSchoolDrop"></div></div></div>
-      <div class="fg"><label>选科 <span class="hint">（选3门，物理历史二选一）</span></label>
+      <div class="fg"><label for="subjectGroup">选科 <span class="hint">（选3门，物理历史二选一）</span></label>
       <div class="cb-group" id="subjectGroup">
         <div class="cb-l" data-v="physics"><span>🔬 物理</span></div><div class="cb-l" data-v="chemistry"><span>🧪 化学</span></div>
         <div class="cb-l" data-v="biology"><span>🧬 生物</span></div><div class="cb-l" data-v="history"><span>📜 历史</span></div>
@@ -1109,6 +1111,18 @@ document.addEventListener('DOMContentLoaded',function(){
       if(isAny&&!a){document.querySelectorAll('#majorGroup .cb-l').forEach(o=>{if(o.dataset.v!=='any')o.classList.remove('active');});}
       if(this.dataset.v!=='any'&&!a){const anyEl=document.querySelector('#majorGroup .cb-l[data-v="any"]');if(anyEl)anyEl.classList.remove('active');}});
   });
+  // Bind buttons via JS instead of onclick
+  document.getElementById('appLevel').addEventListener('change', function(){switchMode();});
+  document.getElementById('nextBtn').addEventListener('click', function(e) {
+    console.log('[NEXT] button clicked, step=', currentStep);
+    nextStep();
+  });
+  document.getElementById('prevBtn').addEventListener('click', function(e) {
+    prevStep();
+  });
+  // Also add a click test - click counter
+  var _clickCount = 0;
+  document.body.addEventListener('click', function() { _clickCount++; }, true);
   switchMode();updateSteps();
   // Make steps clickable
   document.querySelectorAll('.step').forEach(el => {
