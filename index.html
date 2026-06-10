@@ -50,6 +50,7 @@ body{
 .step.done .num{background:var(--safety);color:#fff;}
 .step-divider{flex:1;height:2px;background:var(--border);align-self:center;transition:var(--transition);}
 .step-divider.done{background:var(--safety);}
+.step{cursor:pointer;}.step:hover{opacity:0.8;}.step .step-tip{display:block;font-size:9px;color:var(--text-muted);font-weight:400;margin-top:1px;letter-spacing:0.3px;}.step.active .step-tip{color:var(--primary-light);}.step.done .step-tip{color:var(--safety);}
 .wizard-body{padding:24px 28px;min-height:360px;}
 .wizard-footer{padding:16px 28px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);border:none;font-family:inherit;}
@@ -236,11 +237,11 @@ input::placeholder{color:#B0B8CF;}
     <div class="wizard-header">
       <div class="wizard-title">📋 学生背景信息</div>
       <div class="steps" id="stepIndicators">
-        <div class="step active" data-step="1"><span class="num">1</span>院校与成绩</div>
+        <div class="step active" data-step="1"><span class="num">1</span>院校与成绩 <span class="step-tip">选校·GPA</span></div>
         <div class="step-divider"></div>
-        <div class="step" data-step="2"><span class="num">2</span>标化与专业</div>
+        <div class="step" data-step="2"><span class="num">2</span>标化与专业 <span class="step-tip">语言·方向</span></div>
         <div class="step-divider"></div>
-        <div class="step" data-step="3"><span class="num">3</span>地区与目标</div>
+        <div class="step" data-step="3"><span class="num">3</span>目标地区 <span class="step-tip">选择申请地</span></div>
       </div>
     </div>
     <div class="wizard-body">
@@ -260,7 +261,7 @@ input::placeholder{color:#B0B8CF;}
         <div class="panel-desc">填写语言成绩，选择目标专业方向</div>
         <div class="fields-grid two" id="step2Fields">
           <div class="fg"><label>雅思成绩 <span class="hint">（选填）</span></label><div class="ielts-wrap"><input type="text" id="ieltsInput" placeholder="例如 6.5 或留空" oninput="validateIelts();autoRecalc();"><span class="vld empty" id="ieltsStatus">选填</span></div></div>
-          <div class="fg" id="gaokaoFields" style="display:none;"><label>高考英语 <span class="hint">（预估）</span></label><input type="number" id="gaokaoEnglish" placeholder="例如 120" min="0" max="150" oninput="autoRecalc()"></div>
+
           <div class="fg one" style="grid-column:1/-1;"><label>目标专业 <span class="hint">（可多选）</span></label><div class="cb-group" id="majorGroup">
             <div class="cb-l active" data-v="cs">💻 计算机 / DS / AI</div>
             <div class="cb-l" data-v="business">📈 商科 / 金融 / 管理</div>
@@ -281,7 +282,7 @@ input::placeholder{color:#B0B8CF;}
         <div class="panel-desc">选择你想申请的地区（可多选），然后查看方案</div>
         <div class="fields-grid one" style="max-width:500px;">
           <div class="fg"><label>目标地区 <span class="hint">（可多选）</span></label><div class="cb-group" id="regionGroup">
-            <div class="cb-l active" data-v="uk">🇬🇧 英国</div>
+            <div class="cb-l" data-v="uk">🇬🇧 英国</div>
             <div class="cb-l" data-v="hk">🇭🇰 香港</div>
             <div class="cb-l" data-v="aus">🇦🇺 澳洲</div>
             <div class="cb-l" data-v="macau">🇲🇴 澳门</div>
@@ -385,6 +386,23 @@ const CHINA_UNIVERSITIES = [
   {name:'香港科技大学',tier:'haiben'},{name:'香港城市大学',tier:'haiben'},{name:'香港理工大学',tier:'haiben'},
   {name:'澳门大学',tier:'haiben'},{name:'澳门科技大学',tier:'haiben'},
 ];
+const HIGH_SCHOOLS = [
+  {name:'深圳中学'},{name:'深圳实验学校（高中部）'},{name:'深圳外国语学校'},{name:'深圳高级中学（中心校区）'},
+  {name:'华南师范大学附属中学'},{name:'广东实验中学'},{name:'广州市执信中学'},{name:'广州外国语学校'},
+  {name:'佛山石门中学'},{name:'佛山市第一中学'},{name:'东莞东华高级中学'},{name:'东莞中学'},
+  {name:'珠海市第一中学'},{name:'中山市纪念中学'},{name:'汕头金山中学'},
+  {name:'北京人大附中'},{name:'北京四中'},{name:'北京清华附中'},{name:'北京十一学校'},
+  {name:'上海中学'},{name:'华东师大二附中'},{name:'上海复旦附中'},{name:'上海交大附中'},
+  {name:'杭州第二中学'},{name:'杭州学军中学'},{name:'杭州外国语学校'},{name:'宁波镇海中学'},
+  {name:'南京外国语学校'},{name:'南京师大附中'},{name:'苏州中学'},{name:'无锡天一中学'},
+  {name:'成都七中'},{name:'成都树德中学'},{name:'成都石室中学'},{name:'重庆南开中学'},
+  {name:'重庆巴蜀中学'},{name:'长沙雅礼中学'},{name:'长沙长郡中学'},{name:'湖南师大附中'},
+  {name:'武汉华师一附中'},{name:'武汉外国语学校'},{name:'厦门第一中学'},{name:'厦门双十中学'},
+  {name:'福州第一中学'},{name:'青岛第二中学'},{name:'山东省实验中学'},{name:'哈尔滨三中'},
+  {name:'郑州外国语学校'},{name:'西安高新一中'},{name:'合肥一中'},{name:'南昌二中'},
+  {name:'南宁三中'},{name:'海南中学'},{name:'贵阳市第一中学'},{name:'云南师大附中'},
+  {name:'乌鲁木齐一中'},{name:'东北师大附中'},{name:'大连二十四中'},
+].sort((a,b)=>a.name.localeCompare(b.name,'zh'));
 const REGION_ALIAS = {uk:'🇬🇧 英国',hk:'🇭🇰 香港',aus:'🇦🇺 澳洲',macau:'🇲🇴 澳门'};
 
 /* ==================================================================
@@ -542,15 +560,75 @@ function updateSteps() {
   document.getElementById('prevBtn').style.display = currentStep===1?'none':'inline-flex';
   document.getElementById('nextBtn').textContent = currentStep===3?'🚀 生成方案':'下一步 →';
 }
+
+// Validate fields in a step before allowing transition
+function validateCurrentStep() {
+  const lv = document.getElementById('appLevel').value;
+  if (currentStep === 1) {
+    // Step 1: check if level-specific fields are filled
+    if (lv==='pg'||lv==='phd') {
+      const schoolVal = document.getElementById('ugSchoolInput')?.value?.trim();
+      if (!schoolVal && !getSchoolTier('ug')) {
+        return {ok: false, msg: '请输入或选择本科院校'};
+      }
+    }
+    if (lv==='ug'||lv==='fd') {
+      const total = document.getElementById('gaokaoTotal')?.value;
+      if (!total || parseFloat(total) <= 0) {
+        return {ok: false, msg: '请填写高考总分'};
+      }
+    }
+    return {ok: true};
+  }
+  if (currentStep === 2) {
+    const regions = document.querySelectorAll('#regionGroup .cb-l.active').length;
+    return {ok: true};
+  }
+  return {ok: true};
+}
+
+function goToStep(n) {
+  if (n === currentStep) return;
+  if (n < currentStep) {
+    // Going back is always allowed
+    currentStep = n;
+    updateSteps();
+    return;
+  }
+  // Going forward: validate intermediate steps
+  for (let s = currentStep; s < n; s++) {
+    const tmpStep = currentStep;
+    currentStep = s;
+    const result = validateCurrentStep();
+    currentStep = tmpStep;
+    if (!result.ok) {
+      // Show error briefly
+      const btn = document.getElementById('nextBtn');
+      const orig = btn.textContent;
+      btn.textContent = '⚠️ ' + result.msg;
+      btn.style.background = '#E53E3E';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+      return;
+    }
+  }
+  currentStep = n;
+  updateSteps();
+}
 function nextStep() {
-  if (currentStep===1) { if (!validateStep1()) return; }
-  if (currentStep===2) { if (!validateStep2()) return; }
+  const result = validateCurrentStep();
+  if (!result.ok) {
+    const btn = document.getElementById('nextBtn');
+    const orig = btn.textContent;
+    btn.textContent = '⚠️ ' + result.msg;
+    btn.style.background = '#E53E3E';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+    return;
+  }
   if (currentStep<3) { currentStep++; updateSteps(); }
   else generatePlan();
 }
 function prevStep() { if (currentStep>1) { currentStep--; updateSteps(); } }
-function validateStep1() { return true; } // basic validation
-function validateStep2() { return true; }
+// validation moved to validateCurrentStep()
 
 /* ==================================================================
    Mode Switch
@@ -571,9 +649,8 @@ function switchMode() {
         <div class="cb-l" data-v="biology"><span>🧬 生物</span></div><div class="cb-l" data-v="history"><span>📜 历史</span></div>
         <div class="cb-l" data-v="politics"><span>⚖️ 政治</span></div><div class="cb-l" data-v="geography"><span>🌍 地理</span></div>
       </div><div class="subj-rec" id="subjRec"><span id="subjRecText"></span></div></div>
-      <div class="fg"><label>高考总分 <span class="hint">（预估）</span></label><input type="number" id="gaokaoTotal" placeholder="例如 600" min="0" max="750" oninput="autoRecalc()"></div>`;
-    document.getElementById('gaokaoFields').style.display='block';
-    document.getElementById('gaokaoFields').querySelector('input').placeholder='英语预估分';
+      <div class="fg" style="grid-column:1/-1;"><div class="fields-grid two" style="gap:14px;display:grid;grid-template-columns:1fr 1fr;"><div class="fg"><label>高考总分 <span class="hint">（预估）</span></label><input type="number" id="gaokaoTotal" placeholder="例如 600" min="0" max="750" oninput="autoRecalc()"></div><div class="fg"><label>高考英语 <span class="hint">（预估）</span></label><input type="number" id="gaokaoEnglish" placeholder="例如 120" min="0" max="150" oninput="autoRecalc()"></div></div></div>`;
+    // gaokaoEnglish now in step1 fields
     initSubjectGroup();
     initHighSchoolSearch();
     document.getElementById('step2Fields').querySelector('.panel-title')&&0;
@@ -591,7 +668,6 @@ function switchMode() {
       </div></div>
       <div class="fg"><label>本科专业</label><input type="text" id="ugMajor" placeholder="例如 计算机科学与技术"></div>
       <div class="fg"><label style="display:flex;align-items:center;gap:6px;font-weight:400;font-size:13px;"><input type="checkbox" id="isTopUp" onchange="toggleTopUp()" style="width:auto;"> <span style="font-weight:600;">专升本</span></label></div>`;
-    document.getElementById('gaokaoFields').style.display='none';
     initUgSchoolSearch();
   }
   // GPA fields
@@ -675,16 +751,23 @@ function initSubjectGroup(){
 function updateSubjRec(){
   const checked=document.querySelectorAll('#subjectGroup .cb-l.active'),rec=document.getElementById('subjRec'),txt=document.getElementById('subjRecText');
   if(!checked.length||!rec){if(rec)rec.classList.remove('show');return;}
-  const subs=Array.from(checked).map(e=>e.dataset.v);let m=[];
-  if(subs.includes('physics'))m.push('🔧 计算机/电子/工程');
-  if(subs.includes('chemistry'))m.push('🧪 化工/材料/药学');
-  if(subs.includes('biology'))m.push('🧬 生物/医学');
-  if(subs.includes('history'))m.push('📚 历史/中文/法学');
-  if(subs.includes('politics'))m.push('⚖️ 法学/政治学');
-  if(subs.includes('geography'))m.push('🌍 地理/环境');
+  const subs=Array.from(checked).map(e=>e.dataset.v);let m=[];let majorKeys=[];
+  if(subs.includes('physics')){m.push('🔧 计算机/电子/工程');majorKeys.push('cs','engineering');}
+  if(subs.includes('chemistry')){m.push('🧪 化工/材料/药学');majorKeys.push('medical','science');}
+  if(subs.includes('biology')){m.push('🧬 生物/医学');majorKeys.push('medical');}
+  if(subs.includes('history')){m.push('📚 历史/中文/法学');majorKeys.push('education','law','media');}
+  if(subs.includes('politics')){m.push('⚖️ 法学/政治学');majorKeys.push('law','business');}
+  if(subs.includes('geography')){m.push('🌍 地理/环境');majorKeys.push('engineering','science');}
   if(subs.includes('physics')&&subs.includes('chemistry'))m.push('🔬 材料/化工');
   if(subs.includes('chemistry')&&subs.includes('biology'))m.push('🏥 临床医学/药学');
   if(m.length){txt.innerHTML='推荐方向：'+m.slice(0,4).join(' · ');rec.classList.add('show');}else rec.classList.remove('show');
+  // Auto-select majors based on subjects
+  if(majorKeys.length&&document.querySelector('.step-panel#step2.active')){
+    document.querySelectorAll('#majorGroup .cb-l').forEach(el=>{
+      const shouldBe=majorKeys.includes(el.dataset.v);
+      el.classList.toggle('active',shouldBe);
+    });
+  }
 }
 function setManualTier(key,tier){if(SCHOOL_STATE[key]){SCHOOL_STATE[key].manual=tier;SCHOOL_STATE[key].selected=null;}
   const map={ug:'ugManualTier',phdug:'phdUgManualTier',phdpg:'phdPgManualTier'};const el=document.getElementById(map[key]);
@@ -894,7 +977,7 @@ function resetAll(){
   document.getElementById('comparisonGrid').classList.remove('show');
   document.getElementById('ieltsInput').value='';document.getElementById('ieltsStatus').textContent='选填';
   document.querySelectorAll('#majorGroup .cb-l').forEach(e=>e.classList.toggle('active',e.dataset.v==='cs'));
-  document.querySelectorAll('#regionGroup .cb-l').forEach(e=>e.classList.toggle('active',e.dataset.v==='uk'));
+  // no default region
   Object.keys(SCHOOL_STATE).forEach(k=>{SCHOOL_STATE[k]={selected:null,manual:null};});
   switchMode();updateSteps();
 }
@@ -915,6 +998,13 @@ document.addEventListener('DOMContentLoaded',function(){
       if(this.dataset.v!=='any'&&!a){const anyEl=document.querySelector('#majorGroup .cb-l[data-v="any"]');if(anyEl)anyEl.classList.remove('active');}});
   });
   switchMode();updateSteps();
+  // Make steps clickable
+  document.querySelectorAll('.step').forEach(el => {
+    el.addEventListener('click', function() {
+      const n = parseInt(this.dataset.step);
+      goToStep(n);
+    });
+  });
   // Hook into generate to save last plan
   const origGen=generatePlan;
   window._lastPlan=null;
@@ -924,7 +1014,6 @@ document.addEventListener('DOMContentLoaded',function(){
     // Auto-save first plan
     if(!savedPlan&&plan&&(plan.reach||[]).length)setTimeout(()=>{saveForComparison();},500);
   };
-  // Patch nextBtn on step3 to also save
 });
 </script>
 </body>
